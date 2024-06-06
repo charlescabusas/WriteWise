@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/3898d8ef1a.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/dist/scss/main.css') }}">
+    <script src="{{ url_for('static', filename='css/dist/js/nav.js') }}"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="header header__color">
+        <div class="container">
+            <div class="header__wrapper">
+                <div class="logo">
+                    <h1>W<i class="fa-solid fa-pencil"></i>W</h1>
+                    <span></span>
+                    <h2>WriteWise</h2>
+                </div>
+                <div class="links">
+                    <li><a href="{{ url_for('home') }}" class="homeA button__hover__active nav-link" id="link1">Home</a></li>
+                    <li><a href="{{ url_for('index') }}" class="nav-link" id="link2">Work Now</a></li>
+                    <li><a href="{{ url_for('contact') }}" class="nav-link" id="link3">Contact Us</a></li>
+                    <li><a href="{{ url_for('aboutus') }}"class="nav-link" id="link4">About</a></li>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="socials">
+        <div class="socials__content">
+            <h1>Get in Touch!</h1><br><br><br>
+            <p><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;&nbsp;jlf.latayan@lagunacollege.edu.ph<br><br><br><br><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;&nbsp;jflatayan@lagunacollege.edu.ph<br><br><br><br><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;&nbsp;importantacc513@gmail.com</p><br><br><br>
+            <h1>
+                Socials
+                <br>
+                <br>
+                <i class="fa-brands fa-facebook"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="fa-brands fa-twitter"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="fa-brands fa-square-instagram"></i>
+            </h1>
+        </div>
+        <div class="socials__img">
+            <img class="clientimg" border="0" width="600px" height="800px" alt="clientimg" src="{{url_for('static', filename='images/minimalist-work-img.jpg')}}">   
+        </div>
+    </div>
+    <div class="footer">
+        <div class="container">
+            <div class="footer__wrapper">
+                <div class="logo">
+                    <h1>W<i class="fa-solid fa-pencil"></i>W</h1>
+                    <span></span>
+                    <h2>WriteWise</h2>
+                </div>
+                <div class="extras">
+                    <h3>All rights reserved!</h2>
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-twitter"></i>
+                    <i class="fa-brands fa-square-instagram"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinks = document.querySelectorAll('.nav-link');
+    
+        const activeLinkId = localStorage.getItem('activeLinkId');
+    
+        if (activeLinkId) {
+          const activeLink = document.getElementById(activeLinkId);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+    
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+    
+                link.classList.add('active');
+
+                localStorage.setItem('activeLinkId', link.id);
+            });
+        });
+    });
+</script>
+</html>

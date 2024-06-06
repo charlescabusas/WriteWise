@@ -1,0 +1,69 @@
+.header {
+    .container {
+      margin: 0 auto;
+      padding: 1rem 5rem;
+        .header__wrapper { 
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 1rem 20rem;
+            .links {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 2rem;
+                font-family: "Montserrat";
+                a {
+                    text-decoration: none;
+                    color: white;
+                    font-weight: bolder;
+                    font-size: small;
+                    transition: 0.5s ease;
+                    padding: 1rem;
+                }
+                .homeA {
+                    color: #24dc97;
+                }
+                a:hover {
+                    background-color: azure;
+                    color: black;
+                }
+                a.active{
+                    background-color: azure;
+                    color: black;
+                }
+                .anchor__active{
+                    background-color: azure;
+                    color: black;
+                }
+            }
+            .logo {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                h1{
+                    margin: 0;
+                    font-family: "Poetsen One", sans-serif;
+                    font-weight: 400;
+                    font-style: normal;
+                    font-size: xx-large;
+                    color: #24dc97;
+                }
+                span{
+                    background-color: white;
+                    height: 4rem;
+                    width: 1px;
+                }
+                h2 {
+                    font-family: "Roboto";
+                    font-weight: bolder;
+                    color: white;
+                    font-size: large;
+                }
+            }
+        }
+    }
+}
+.header__color{
+    background-color: #37474f;
+}

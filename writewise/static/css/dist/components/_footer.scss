@@ -1,0 +1,58 @@
+.footer {
+    background-color: #2c2c2c;
+    height: 30rem;
+    .container {
+        margin: 0 auto;
+        padding: 2rem;
+        padding-top: 3rem;
+        .footer__wrapper {
+            padding: 0 18rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            h1 {
+                text-align: center;
+                color: #24dc97;
+                font-family: "Poetsen One";
+            }
+            .logo {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                h1{
+                    margin: 0;
+                    font-family: "Poetsen One", sans-serif;
+                    font-weight: 400;
+                    font-style: normal;
+                    font-size: xx-large;
+                    color: #24dc97;
+                }
+                span{
+                    background-color: white;
+                    height: 4rem;
+                    width: 1px;
+                }
+                h2 {
+                    font-family: "Roboto";
+                    font-weight: bolder;
+                    color: white;
+                    font-size: large;
+                }
+            }
+            .extras {
+                font-family: "Roboto", sans-serif;
+                color: white;
+                font-size: large;
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+                i{
+                    transition: 0.5s ease;
+                }
+                .extras i:hover {
+                    color: #24dc97;
+                }
+            }
+        }
+    }
+}

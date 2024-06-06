@@ -1,0 +1,44 @@
+.content__logo {
+    padding: 5rem 10rem;
+    .content__logo__wrapper {
+      display: flex;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      h1 {
+        margin: 0;
+        font-family: "Poetsen One", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 6rem;
+        color: #24dc97;
+      }
+      h2 {
+        font-family: "Roboto", sans-serif;
+        font-weight: bolder;
+        color: #24dc97;
+        font-size: 4rem;
+      }
+      span {
+        background-color: black;
+        height: 1px;
+        width: 4rem;
+      }              
+            
+    }
+}
+.aboutuscontent {
+  p{
+    text-align: left;
+    margin: 0 30%;
+    font-size: large;
+    border: 1px solid black;
+    padding: 3%;
+    background-color: white;
+    border-radius: 25px;
+    margin-bottom: 10rem;
+    font-family: 'Montserrat';
+  }
+}

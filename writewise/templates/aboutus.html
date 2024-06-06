@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/3898d8ef1a.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/dist/scss/main.css') }}">
+    <script src="{{ url_for('static', filename='css/dist/js/nav.js') }}"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="header header__color">
+        <div class="container">
+            <div class="header__wrapper">
+                <div class="logo">
+                    <h1>W<i class="fa-solid fa-pencil"></i>W</h1>
+                    <span></span>
+                    <h2>WriteWise</h2>
+                </div>
+                <div class="links">
+                    <li><a href="{{ url_for('home') }}" class="homeA button__hover__active nav-link " id="link1">Home</a></li>
+                    <li><a href="{{ url_for('index') }}" class="nav-link" id="link2">Work Now</a></li>
+                    <li><a href="{{ url_for('contact') }}" class="nav-link" id="link3">Contact Us</a></li>
+                    <li><a href="{{ url_for('aboutus') }}"class="nav-link" id="link4">About</a></li>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content__logo">
+        <div class="content__logo__wrapper"> 
+            <h1>W<i class="fa-solid fa-pencil"></i>W</h1>
+            <span></span>
+            <h2>WriteWise</h2>
+        </div>
+    </div>
+    <div class="aboutuscontent">
+        <p>
+            WriteWise is an advanced AI-powered writing assistant designed to enhance the writing process for users across various domains. By leveraging cutting-edge natural language processing (NLP) technology, WriteWise provides intelligent suggestions, grammatical corrections, stylistic improvements, and contextually relevant content recommendations to ensure that users produce clear, concise, and compelling text.
+            <br><br>
+            Key features of WriteWise include:
+            <br><br>
+            1. Real-Time Feedback: Instant suggestions on grammar, punctuation, and syntax errors to streamline the editing process.
+            <br><br>
+            2. Stylistic Enhancements: Tailored recommendations to improve the tone, flow, and overall readability of the content, ensuring it aligns with the desired writing style and audience expectations.
+            <br><br>
+            3. Content Enrichment: Contextual advice and content ideas that help users expand their writing, add depth to their arguments, and stay on topic.
+            <br><br>
+            Ideal for students, professionals, authors, and anyone seeking to improve their writing skills, WriteWise acts as a virtual writing coach, empowering users to produce high-quality written work with confidence and ease. Whether crafting an email, drafting a report, writing a novel, or preparing academic papers, WriteWise is the go-to solution for all writing needs.
+        </p>
+    </div>
+    <div class="footer">
+        <div class="container">
+            <div class="footer__wrapper">
+                <div class="logo">
+                    <h1>W<i class="fa-solid fa-pencil"></i>W</h1>
+                    <span></span>
+                    <h2>WriteWise</h2>
+                </div>
+                <div class="extras">
+                    <h3>All rights reserved!</h2>
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-twitter"></i>
+                    <i class="fa-brands fa-square-instagram"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinks = document.querySelectorAll('.nav-link');
+        const activeLinkId = localStorage.getItem('activeLinkId');
+    
+        if (activeLinkId) {
+          const activeLink = document.getElementById(activeLinkId);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+    
+                link.classList.add('active');
+
+                localStorage.setItem('activeLinkId', link.id);
+            });
+        });
+    });
+</script>
+</html>

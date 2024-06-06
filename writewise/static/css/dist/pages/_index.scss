@@ -1,0 +1,426 @@
+body {
+    margin: 0 1rem;
+    background-color: rgb(232, 234, 236);
+    ul {
+        margin: 0;
+        padding: 0;
+        
+        li {
+            list-style: none;
+        }
+    }
+    .body {
+        display: flex;
+        padding: 2rem 1rem;
+        
+        .input {
+            width: 60%;
+            padding: 2rem;
+            margin: 5px;
+            border: 1px solid green;
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 16px 0px, rgba(0, 0, 0, 0.06) 0px 4px 4px 0px, rgba(0, 0, 0, 0.1) 0px 0px 2px 0px;
+            background-color: white;
+            .user__text{
+                display: flex;
+                textarea {
+                    resize: none;
+                    font-family: 'Roboto';
+                    font-weight: bolder;
+                    font-size: 16px;
+                    padding: 2rem;
+                    width: 100%;
+                    height: 575px;
+                    border: none;
+                    overflow: auto;
+                    &:focus {
+                        outline: none;
+                    }
+                }
+                #input_text::-webkit-scrollbar {
+                    display: none;
+                }
+                #input_text {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;  
+                }
+                .delete{
+                    .btn__delete{
+                        border: none;
+                        font-size: x-large;
+                        color: #37474f;
+                        transition: 0.2s ease;
+                        background: none;
+                        padding: 1rem;
+                    }
+                    .btn__delete:hover {
+                        scale: 1.3;
+                        transition: 0.2s ease;
+                        color: red;
+                    }
+                }
+                
+            }
+            .extra__func{
+                margin-top: 5rem;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 3rem;
+                button{
+                    border: 3px solid #24dc97;
+                    font-size: small;
+                    color: #24dc97;
+                    transition: 0.2s ease;
+                    background: none;
+                    padding: 1rem;
+                    border-radius: 5px;
+                    font-family: "Montserrat";
+                    font-weight: bolder;
+                }
+                button:hover {
+                    scale: 1.3;
+                    transition: 0.2s ease;
+                }
+                .charcount{
+                    font-family: "Roboto";
+                    font-weight: bold;
+                    font-size: large;
+                    p{
+                        span{
+                            color: #1c448e;
+                            font-size: x-large;
+                        }
+                    }
+                    .red-text{
+                        span{
+                            color: red;
+                            font-weight: bold;
+                            font-size: large;
+                        }
+                        color: red;
+                        font-family: "Roboto";
+                        font-size: x-large;
+                    }
+                }
+            }
+        }
+        .output {
+            width: 40%;
+            padding: 1rem;
+            margin: 5px;
+            
+            .btntop {
+                display: flex;
+                
+                .btn {
+                    font-family: "Montserrat";
+                    background-color: #f5fffa;
+                    font-weight: 600;
+                    color: #24dc97;
+                    border: none;
+                    border-radius: 8px;
+                    width: 100px;
+                    height: 25px;
+                    transition: .3s;
+                    margin: 5px;
+                    
+                    
+                }
+                .btn:hover {
+                    box-shadow: 0 0 0 3px #f5fffa;
+                }
+            }
+        }
+        
+        .grammar {
+            overflow: hidden; 
+            max-height: 550px;
+            padding: 5px;
+            overflow-y: scroll;
+            scrollbar-width: none;
+            font-family: 'Montserrat';
+            .g_item {
+                margin-top: 5px;
+                padding: 5px 15px;
+                background-color: white;
+                border-radius: 10px;
+                margin-bottom: 1rem;
+                box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 16px 0px, rgba(0, 0, 0, 0.06) 0px 4px 4px 0px, rgba(0, 0, 0, 0.1) 0px 0px 2px 0px;
+                
+                &:hover {
+                    box-shadow: 0 0 0 1.5px red;
+                    .btn_delete i {
+                        display: block;
+                    }
+                }
+            }
+            h4 {
+                font-size: 15px;
+                color: rgb(56, 56, 56);
+                margin: 5px 5px 6.5px 5px;
+                font-family: "Montserrat";
+            }
+            .redErr{
+                background-color: #ffb5b7;
+            }
+            .greenErr{
+                background-color: #cfe1c9;
+            }
+            h5 {
+                font-size: 15px;
+                font-weight: bolder;
+                color: darkslategrey;
+                font-family: "Montserrat";
+                margin: 5px 5px 6.5px 5px;
+            }
+            .gerrortoken {
+                display: flex;
+            }
+            .noerror {
+                font-family: "Concert One";
+                margin-top: 5px;
+                padding: 5px 15px;
+                background-color: white;
+                border-radius: 10px;
+                margin-bottom: 1rem;
+                box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 16px 0px, rgba(0, 0, 0, 0.06) 0px 4px 4px 0px, rgba(0, 0, 0, 0.1) 0px 0px 2px 0px;
+                height: 50vh;
+                text-align: center;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                h1{
+                    font-size: 5rem;
+                    font-family: "Concert One";
+                    color: green;
+                    margin: 5px 5px 6.5px 5px;
+                    font-weight: 600;
+                    span{   
+                        font-size: 7rem;
+                    }
+                }
+                p{
+                    font-size: 3rem;
+                }
+            }
+            .noerror_del {
+                font-family: "Concert One";
+                margin-top: 5px;
+                padding: 5px 15px;
+                background-color: white;
+                border-radius: 10px;
+                margin-bottom: 1rem;
+                box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 16px 0px, rgba(0, 0, 0, 0.06) 0px 4px 4px 0px, rgba(0, 0, 0, 0.1) 0px 0px 2px 0px;
+                height: auto;
+                text-align: center;
+                align-items: center;
+                display: none;
+                justify-content: center;
+                h1{
+                    font-size: 5rem;
+                    font-family: "Concert One";
+                    color: green;
+                    margin: 5px 5px 6.5px 5px;
+                    font-weight: 600;
+                    span{   
+                        font-size: 7rem;
+                    }
+                }
+            }
+        }
+    }
+    
+    .suggest {
+        padding: 5px;
+        display: none;
+        .noerror {
+            font-family: "Concert One";
+            margin-top: 5px;
+            padding: 5px 15px;
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 16px 0px, rgba(0, 0, 0, 0.06) 0px 4px 4px 0px, rgba(0, 0, 0, 0.1) 0px 0px 2px 0px;
+            height: 50vh;
+            text-align: center;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            h1 {
+                font-size: 7rem;
+                color: #1c448e;
+                font-family: "Concert One";
+                margin: 5px 5px 6.5px 5px;
+                font-weight: 600;
+                span{
+                    font-size: 10rem;
+                }
+            }
+            p{
+                font-size: 3rem;
+            }
+        }
+        .s_item {
+            font-family: "Montserrat";
+            text-align: center;
+            margin-top: 5px;
+            padding: 5px 15px;
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 16px 0px, rgba(0, 0, 0, 0.06) 0px 4px 4px 0px, rgba(0, 0, 0, 0.1) 0px 0px 2px 0px;
+            max-height: 550px;
+            overflow-y: scroll;
+            scrollbar-width: none;
+            overflow: hidden; /* Hide scrollbars */
+        }
+        h4{
+            font-size: large;
+            i{
+                opacity: 0;
+            }
+        }
+        h4:hover{
+            color:aliceblue;
+            background-color: #59D2fe;
+            i{
+                opacity: 1;
+                color: #e2725B;
+            }
+        }
+    }
+    .review {
+        padding: 5px;
+        display: none;
+        h3 {
+            font-family: "Montserrat";
+            font-weight: bolder;
+            color: #008080;
+            transition: .3s;
+            margin: 5px;
+            font-size: 2rem;
+            text-align: center;
+        }
+        h4 {
+            font-family: monospace;
+            font-weight: 600;
+            font-size: larger;
+            color: green;
+            transition: .3s;
+            margin: 5px;
+        }
+        .tab_1 {
+            margin-top: 5px;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 16px 0px, rgba(0, 0, 0, 0.06) 0px 4px 4px 0px, rgba(0, 0, 0, 0.1) 0px 0px 2px 0px;
+            .content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+                text-align: center  ;
+                h5 {
+                    font-size: 3rem;
+                    color: darkslategrey;
+                    font-family: 'Montserrat';
+                }
+            }
+            .green{
+                color: green;
+            }
+            .orange{
+                color:orange;
+            }
+            .red{
+                color: red;
+            }
+        }
+        .tab_2 {
+            padding: 2rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 16px 0px, rgba(0, 0, 0, 0.06) 0px 4px 4px 0px, rgba(0, 0, 0, 0.1) 0px 0px 2px 0px;
+            .content {
+                font-family: 'Montserrat';
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                text-align: center;
+                gap: 1rem;
+                h5 {
+                    font-weight: bolder;
+                    color: #A020F0;
+                    font-family: 'Montserrat';
+                }
+            }
+        }
+    }
+    .flex {
+        display: flex;
+    }
+    .border-g {
+        box-shadow: 0 0 0 3px #24dc97;
+    }
+    .j-s_between {
+        justify-content: space-between;
+    }
+    .d_none {
+        display: none;
+        p{
+            font-family: "Concert One";
+            margin-top: 5px;
+            padding: 5px 15px;
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 16px 0px, rgba(0, 0, 0, 0.06) 0px 4px 4px 0px, rgba(0, 0, 0, 0.1) 0px 0px 2px 0px;
+            height: 50vh;
+            text-align: center;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            font-size: xx-large;
+            span{
+                font-size: 5rem;
+                color: red;
+                
+            }
+        }
+    }
+    .btn_delete {
+        display: inline-block;
+        width: auto;
+        
+        i {
+            color: gray;
+            display: none;
+            margin: 6px 0px 0px 0px;
+            transition: 0.2s ease;
+            
+            &:hover {
+                color: darkgreen;
+                transition: 0.2s ease;
+            }
+        }
+    }
+    .stoken {
+        h5 {
+            font-size: 3rem;
+            font-family: "Concert One";
+            font-weight: 700;
+            color: #1c448e;
+            i{
+                display: none;
+            }
+
+        }
+    }
+    h4:hover {
+        background-color: rgba(128, 128, 128, 0.212); 
+    }
+}

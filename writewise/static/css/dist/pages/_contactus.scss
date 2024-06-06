@@ -1,0 +1,25 @@
+.socials{
+    background-color: white;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10rem;
+    padding: 10rem;
+    font-family: 'Montserrat';
+    .socials__content{
+        border: 2px solid black;
+        padding: 3rem 15rem 3rem 2rem;
+        h1{
+            i{
+                transition: 0.5s ease;
+            }
+            i:hover{
+                color: #24dc97;
+            }    
+        }
+    }
+    .socials__img{
+        order: -1;
+        box-shadow: 10px 10px 5px 0px black;
+    }
+}

@@ -1,0 +1,586 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<script src="https://kit.fontawesome.com/3898d8ef1a.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body %}
+<div class="header header__color">
+    <div class="container">
+        <div class="header__wrapper">
+            <div class="logo">
+                <h1>W<i class="fa-solid fa-pencil"></i>W</h1>
+                <span></span>
+                <h2>WriteWise</h2>
+            </div>
+            <div class="links">
+                <li><a href="{{ url_for('home') }}" class="homeA button__hover__active nav-link" id="link1">Home</a></li>
+                <li><a href="{{ url_for('index') }}" class="nav-link " id="link2">Work Now</a></li>
+                <li><a href="{{ url_for('contact') }}" class="nav-link" id="link3">Contact Us</a></li>
+                <li><a href="{{ url_for('aboutus') }}"class="nav-link" id="link4">About</a></li>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="body">
+    <div class="input">
+        <form method="post" id="input_form">
+            <div class="user__text">
+                <textarea name="input_text" id="input_text" rows="10" cols="50" placeholder="Enter text here" oninput="startTypingTimer()" onkeydown="cancelTypingTimer()">{{ input_text }}</textarea><br>
+                <div class="delete">
+                    <button class="btn__delete" onclick="deleteUserInput()"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
+            <div class="span__design">
+                </span><span></span><span></span><span></span><span class="line__span"></span>
+            </div>
+            <div class="extra__func">
+                <div class="charcount"><p id="charcount">{{ lenchar }}/<span>3500 char</span></p></div>
+                <button class="btn_copy" onclick="copyFromClipboard()"><i class="fa-solid fa-copy"></i> Copy Text</button>
+                <button class="btn_paste" id="paste_btn" onclick="pasteToTextarea()"><i class="fa-solid fa-clipboard"></i> Paste Text</button>
+            </div>
+        </form>
+    </div>
+    <div class="output">
+        <div class="btntop">
+            <div class="btn_g">
+                <button class="btn border-g" id="btn_g">Grammar</button>
+            </div>
+            <div class="btn_s">
+                <button class="btn" id="btn_s">Synonym</button>
+            </div>
+            <div class="btn_r">
+                <button class="btn" id="btn_r">Review</button>
+            </div>
+        </div>
+        <div class="grammar" id="grammar">
+            {% if errors %}
+                <div>
+                    <ul>
+                        {% for error in errors %}
+                            {% if error.replacements %}
+                                {% for replacement in error.replacements %}
+                                        <li class="g_item"  id="g_item">
+                                            <div class="gerror flex j-s_between">
+                                                <div class="gerror_content flex"><h5><span> • </span>Error: </h5> <h4 class="ruleId">{{ error.rule_id }}</h4></div>
+                                                <div class="btn_delete"><i class="fa-solid fa-x"></i></div>
+                                            </div>
+                                            <div class="gmessage flex">
+                                                <h5>Message: </h5><h4>{{ error.message }}</h4>
+                                            </div>
+                                            <h4 class="len d_none">{{error.elenght}}</h4>
+                                            <h4 class="offset d_none">{{error.offset}}</h4>
+                                            <div class="flex redErr"><h5>Error Token: </h5><h4 class="gerrortoken">{{ error.error_token | replace("[", "") | replace("]", "") | replace("'", "") }}</h4></div>
+                                            <div class="flex greenErr"><h5>Replacement: </h5><h4 class="greplacement">{{ replacement | replace("[", "") | replace("]", "") | replace("'", "") | replace("shouldnt", "shouldn't") }}</h4></div>
+                                            <div class="gcontext flex">
+                                                <h5>Context: </h5><h4>{{ error.context }}</h4>
+                                            </div>
+                                        </li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% else %}
+                <div class="noerror" id="noInput">
+                    <h1>
+                        <span>N</span>o
+                        <span>G</span>rammar<br>
+                        <span>E</span>rror<br>
+                    </h1>
+                    <p>Please input your sentence or paragraph/s in the text box to start checking!</p>
+                </div>
+            {% endif %}
+            <div class="d_none" id="maxchar"><p><span>Maximum</span> characters exceeded, lessen your text!</p></div>
+            <div class="noerror_del" id="noerror">
+                <h1>
+                    <span>N</span>o
+                    <span>G</span>rammar<br>
+                    <span>E</span>rror<br>
+                </h1>
+            </div>
+        </div>
+        <div class="suggest" id="suggest">  
+            <div class="noerror" id="instruc">
+                <h1><span>S</span>ynonyms</h1>
+                <p>Double click on a word to get similar words!</p>
+            </div>
+                <div id="output"></div>
+            {% if synonyms %}
+                <ul>
+                    {% for token, token_synonyms in synonyms.items() %}
+                    {% if token_synonyms %}
+                        <li class="s_item g_item d_none" id="s_item">
+                            <div class="stoken">
+                                <h5 class="s_token" id="s_token">{{ token }}</h5>
+                                {% for synonym in token_synonyms %}
+                                <h4 class="synonym"><i class="fa-solid fa-arrow-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>{{ synonym | replace("_"," " ) }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-arrow-left"></i></h4>
+                                {% endfor %}
+                            </div>
+                        </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <div class="d_none" id="nosynonym">
+                <p>There are no synonyms to the word selected, select another word</p>
+            </div>
+        </div>
+        <div class="review" id="review">
+            <div class="tab_1">
+                <h3>Sentiment</h3>
+                <div class="content">
+                    <div class="text">
+                        <h5><i class="fa-solid fa-face-laugh-squint green"></i>&nbsp;&nbsp; {{ positive_score }} </h5>
+                    </div>
+                    <div class="text">
+                        <h5><i class="fa-solid fa-face-tired red"></i>&nbsp;&nbsp; {{ negative_score }} </h5>
+                    </div>
+                    <div class="text">
+                        <h5><i class="fa-solid fa-face-meh orange"></i>&nbsp;&nbsp; {{ neutral_score }} </h5>
+                    </div>
+                    <div class="text">
+                        <h5><i class="fa-solid fa-user"></i>&nbsp;&nbsp; {{ compound_score }} </h5>
+                    </div>
+                </div>   
+            </div>
+            <div class="tab_2"  id="tab_2">
+                <h3>Word Count</h3>
+                <div class="content">
+                    <div class="text">
+                        <h5>Characters  : </h5>
+                    </div>
+                    <div class="result">
+                        <h5 class="lenchar" id="lenchar">{{ lenchar }}</h5>
+                    </div>
+                    <div class="text">
+                        <h5>Word Count  : </h5>
+                    </div>
+                    <div class="result">
+                        <h5>{{ lenwords }}</h5>
+                    </div>
+                    
+                    <div class="text">
+                        <h5>Sentences  : </h5>
+                    </div>
+                    <div class="result">
+                        <h5>{{ lensen }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+
+function copyFromClipboard() {
+    var copyText = document.getElementById("input_text");
+  
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); 
+  
+    navigator.clipboard.writeText(copyText.value);
+  
+    alert("Copied the text: " + copyText.value)
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    var tab2 = document.getElementById("tab_2");
+       var lenchar = parseInt(tab2.querySelector(".lenchar").textContent.trim());
+       var maxshow = document.getElementById("maxchar");
+       var noerror = document.getElementById("noerror");
+       var noInput = document.getElementById("noInput");
+       console.log("lenchar",lenchar);
+        if (lenchar > 3500){
+            maxshow.style.display = "block";
+            noerror.style.display = "none";     
+            charcount.classList.add('red-text');  
+        }else {
+            charcount.classList.remove('red-text');
+        };
+
+    var grammar_ul = document.getElementById("g_item");
+    console.log("ul:", grammar_ul)
+    if (!grammar_ul && lenchar>0){
+        console.log("condition met")
+        noerror.style.display = "block";       
+        noInput.style.display = "none";       
+    } 
+    else{
+        console.log("condition not met")
+        noerror.style.display = "none";       
+    }
+
+var gItems = document.querySelectorAll(".g_item");
+gItems.forEach(function(item) {
+    item.addEventListener("click", function() {
+        console.log("Clicked on an error item"); 
+        var errorToken = item.querySelector(".gerrortoken").textContent.trim();
+        var rule_id = item.querySelector(".ruleId").textContent.trim();
+        var replacement = item.querySelector(".greplacement").textContent.trim();
+        var eLen = parseInt(item.querySelector(".len").textContent.trim());
+        var offset = parseInt(item.querySelector(".offset").textContent.trim());
+        var endset = offset+eLen;
+
+        console.log("Error token:", errorToken);
+        console.log("Replacement:", replacement);
+        console.log("offset:", offset, "endset:" , endset);
+        console.log("id:", rule_id)
+
+        if (rule_id === "SENTENCE_WHITESPACE") {
+            addSpace(offset, endset, replacement, errorToken)
+        } else {
+            replaceErrorToken(offset, endset, replacement, errorToken);
+        }
+
+        document.getElementById("input_form").submit();
+
+    });
+});
+});
+
+function replaceErrorToken(offset, endset, replacement, errorToken) {
+var inputTextArea = document.getElementById("input_text");
+
+if (inputTextArea) {
+    var inputText = inputTextArea.value;
+    var start = inputText.substring(0, offset);
+    var end = inputText.substring(endset);
+    var eToken = inputText.substring(offset, endset);
+    console.log("etoken:",eToken, "errorToen:", errorToken);
+
+    if (eToken == errorToken){
+        var newText = start+replacement+end;
+    }
+    else if (eToken ==="  "){
+        eToken = " "
+        var newText = start+eToken+end;
+    }
+    else{
+        var loopCount = 0;
+    while (eToken != errorToken && loopCount < 40) {
+        offset --;
+        endset --;
+        start = inputText.substring(0, offset);
+        end = inputText.substring(endset);
+        eToken = inputText.substring(offset, endset);
+        loopCount++;
+        console.log("offset:", offset, "endset:" , endset);
+        console.log("etoken:",eToken, "errorToen:", errorToken);
+    }
+    var newText = start+replacement+end;
+    }
+
+    inputTextArea.value = newText;
+} else {
+    console.error("Textarea element with id 'input_text' not found.");
+}
+}
+
+function addSpace(offset, endset, replacement, errorToken){
+    console.log("addSpace function is used");
+    var inputTextArea = document.getElementById("input_text");
+    
+    if (inputTextArea) {
+        var inputText = inputTextArea.value;
+        var errorindex = inputText.substring(0, offset);
+        var errorend = inputText.substring(offset);
+        var eToken = inputText.substring(offset, endset);
+        console.log("etoken:",eToken, "errorToen:", errorToken);
+    
+        if (eToken == errorToken){
+            var newText = errorindex+" " +errorend; 
+        }
+        else{
+            var loopCount = 0;
+        while (eToken != errorToken && loopCount < 40) {
+            offset --;
+            endset --;
+            errorindex = inputText.substring(0, offset);
+            errorend = inputText.substring(endset);
+            eToken = inputText.substring(offset, endset);
+            loopCount++;
+            console.log("offset:", offset, "endset:" , endset);
+            console.log("etoken:",eToken, "errorToen:", errorToken);
+            var rToken = " "+eToken
+            console.log("rtoken",rToken);
+        }
+        var newText = errorindex+rToken+errorend; 
+        }
+        inputTextArea.value = newText;
+    
+    } else {
+        console.error("Textarea element with id 'input_text' not found.");
+    }
+}
+document.addEventListener("DOMContentLoaded", function() {
+var delBtns = document.querySelectorAll(".btn_delete")
+var eTokenList = [];
+var rTokenList = [];
+var ruleIdList = [];
+delBtns.forEach(function(btn){
+    btn.addEventListener("click", function(){
+        console.log("Clicked on trash");
+        event.stopPropagation();
+        event.preventDefault();
+        var gItem = this.closest(".g_item");
+        gItem.remove();
+
+        var eToken = gItem.querySelector(".gerrortoken").textContent.trim();
+        var rToken = gItem.querySelector(".greplacement").textContent.trim();
+        var ruleId = gItem.querySelector(".ruleId").textContent.trim();
+        rTokenList.push(rToken);
+        eTokenList.push(eToken);
+        ruleIdList.push(ruleId);
+        console.log(eTokenList, rTokenList, ruleIdList);
+        sendData(eTokenList, rTokenList, ruleIdList);
+
+                // grammar ul is empty
+    var grammar_ul = document.getElementById("g_item");
+    console.log("ul:", grammar_ul)
+    if (!grammar_ul){
+        console.log("condition met delete")
+        noerror.style.display = "block";       
+    } 
+    else{
+        console.log("condition not met delete")
+        noerror.style.display = "none";       
+    }
+    });
+    });
+});
+
+function sendData(eTokenList, rTokenList, ruleIdList){
+    var data = { 'list1': eTokenList, 'list2': rTokenList, 'list3': ruleIdList };
+    $.ajax({                 
+        url: '/process',                 
+        type: 'POST',                 
+        data: JSON.stringify(data),         
+        contentType: 'application/json',                                 
+        success: function(response) {     
+        },                 
+        error: function(error) {                     
+            console.log(error);                 
+        }             
+    }); 
+};
+
+document.addEventListener("DOMContentLoaded", function() {
+$("#input_text").dblclick(function() {
+    var instruct = document.getElementById("instruc");
+    instruct.style.display = "none";
+    toggleVisibility("suggest");
+
+    if($(this).val() !== null && $(this).val() !== ''){
+        var text = document.getElementById("input_text");
+
+        var selection = window.getSelection();
+        selection.modify('extend', 'backward', 'word');
+        var end = selection.toString();
+
+        selection.modify('extend', 'forward', 'word');
+        var start = selection.toString();
+        selection.modify('move', 'forward', 'character');
+        var wordInput = end + start;
+
+        var offset = text.selectionStart-wordInput.length;
+        var endset = text.selectionEnd;
+        var endidx = endset - 1;
+
+        console.log("Selected word:", wordInput, "offset:", offset, "endset:", endset);
+        
+        var sItems = document.querySelectorAll(".s_item");
+        var nosynonym = document.getElementById("nosynonym");
+        var isTrue = true;
+
+        sItems.forEach(function(sItem) {
+            var sToken = sItem.querySelector(".s_token").textContent.trim();
+            if (sToken === wordInput.trim()) {
+                console.log("Match found. Displaying s_item:", sItem);
+                sItem.style.display = "block";
+                nosynonym.style.display = "none";
+            } else {
+                console.log("No match. Hiding s_item:");
+                sItem.style.display = "none";
+            };
+            if (getComputedStyle(sItem).display !== "none") {
+                isTrue = false;
+            };
+        });
+        if (isTrue){
+            nosynonym.style.display = "block";
+        }
+
+        var synonyms = document.querySelectorAll(".synonym");
+        synonyms.forEach(function(item) {
+            item.addEventListener("click", function() {
+                console.log("Clicked on a synonym item");
+                var sToken = this.closest(".s_item").querySelector(".s_token").textContent.trim();
+                var synonym = item.textContent.trim();
+                console.log("Token:", wordInput);
+                console.log("Synonym:", synonym);
+                replaceToken(offset, endidx, synonym);
+                document.getElementById("input_form").submit();
+            });
+        });
+    };
+});
+});
+
+function replaceToken(offset, endidx, synonym) {
+var inputTextArea = document.getElementById("input_text");
+if (inputTextArea) {
+    var inputText = inputTextArea.value;
+    var offset = inputText.substring(0, offset);
+    var endset = inputText.substring(endidx);
+    var newText = offset+synonym+endset;
+    inputTextArea.value = newText;
+} else {
+    console.error("Textarea element with id 'input_text' not found.");
+}
+}
+
+
+document.getElementById("btn_g").addEventListener("click", function() {
+toggleVisibility("grammar");
+});
+document.getElementById("btn_s").addEventListener("click", function() {
+toggleVisibility("suggest");
+});
+document.getElementById("btn_r").addEventListener("click", function() {
+toggleVisibility("review");
+});
+function toggleVisibility(divId) {
+var div = document.getElementById(divId);
+var div_g =document.getElementById("grammar");
+var div_s =document.getElementById("suggest");
+var div_r =document.getElementById("review");
+var btn_g =document.getElementById("btn_g");
+var btn_s =document.getElementById("btn_s");
+var btn_r =document.getElementById("btn_r");
+
+if (div == div_g){
+    div.style.display = "block";
+    div_r.style.display = "none";
+    div_s.style.display = "none";
+    btn_g.style.boxShadow = " 0 0 0 3px rgb(36,220,151)";
+    btn_s.style.boxShadow = "none";
+    btn_r.style.boxShadow = "none";
+} if (div == div_s) {
+    div.style.display = "block";
+    div_r.style.display = "none";
+    div_g.style.display = "none";
+    btn_s.style.boxShadow = " 0 0 0 3px rgb(36,220,151)";
+    btn_g.style.boxShadow = "none";
+    btn_r.style.boxShadow = "none";
+} if (div == div_r)  {
+    div.style.display = "block";
+    div_g.style.display = "none";
+    div_s.style.display = "none";
+    btn_r.style.boxShadow = " 0 0 0 3px rgb(36,220,151)";
+    btn_s.style.boxShadow = "none";
+    btn_g.style.boxShadow = "none";
+}
+}
+function toggleVisibility(divId) {
+    var div = document.getElementById(divId);
+    var div_g =document.getElementById("grammar");
+    var div_s =document.getElementById("suggest");
+    var div_r =document.getElementById("review");
+    var btn_g =document.getElementById("btn_g");
+    var btn_s =document.getElementById("btn_s");
+    var btn_r =document.getElementById("btn_r");
+    
+    if (div == div_g){
+        div.style.display = "block";
+        div_r.style.display = "none";
+        div_s.style.display = "none";
+        btn_g.style.boxShadow = " 0 0 0 3px #24dc97";
+        btn_s.style.boxShadow = "none";
+        btn_r.style.boxShadow = "none";
+    } if (div == div_s) {
+        div.style.display = "block";
+        div_r.style.display = "none";
+        div_g.style.display = "none";
+        btn_s.style.boxShadow = " 0 0 0 3px #24dc97";
+        btn_g.style.boxShadow = "none";
+        btn_r.style.boxShadow = "none";
+    } if (div == div_r)  {
+        div.style.display = "block";
+        div_g.style.display = "none";
+        div_s.style.display = "none";
+        btn_r.style.boxShadow = " 0 0 0 3px #24dc97";
+        btn_s.style.boxShadow = "none";
+        btn_g.style.boxShadow = "none";
+    }
+    }
+
+var typingTimer;
+    var doneTypingInterval = 2000;
+
+    function doneTyping() {
+        document.getElementById("input_text").focus();
+
+        document.getElementById("input_form").submit();
+                event.stopPropagation();
+        event.preventDefault();
+        document.getElementById("input_text").focus();
+
+    }
+
+    function startTypingTimer() {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    }
+
+    function cancelTypingTimer() {
+        document.getElementById("input_text").focus();
+        clearTimeout(typingTimer);
+        
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinks = document.querySelectorAll('.nav-link');
+    
+        const activeLinkId = localStorage.getItem('activeLinkId');
+    
+        if (activeLinkId) {
+          const activeLink = document.getElementById(activeLinkId);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+    
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+    
+                link.classList.add('active');
+    
+                localStorage.setItem('activeLinkId', link.id);
+            });
+        });
+    });
+</script>
+<div class="footer">
+    <div class="container">
+        <div class="footer__wrapper">
+            <div class="logo">
+                <h1>W<i class="fa-solid fa-pencil"></i>W</h1>
+                <span></span>
+                <h2>WriteWise</h2>
+            </div>
+            <div class="extras">
+                <h2>All rights reserved!</h2>
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-twitter"></i>
+                <i class="fa-brands fa-square-instagram"></i>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
